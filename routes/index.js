@@ -2,17 +2,9 @@ var express = require('express');
 var router = express.Router();
 var bcrypt = require('bcrypt');
 var models = require('../models');
+var middleware = require('./middleware');
 
-router.use(function(req, res, next) {
-  var links = [{ title: 'Login / Signup', href: '/login' }];
-  if(req.session.email){
-    links = [{ title: 'Logout', href: '/logout' }];
-  }
-  res.render('navbar', { layout: false, links: links }, function(err, html) {
-    req.session.navbar = html;
-    next();
-  });
-});
+router.use(middleware.navbar);
 
 router.get('/', function(req, res) {
   res.render('index', { navbar: req.session.navbar, title: 'Express' });
