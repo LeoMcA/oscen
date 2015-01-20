@@ -16,6 +16,7 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
+        this.belongsToMany(models.Song, { as: 'CreatedSongs', through: 'UserCreatedSongs' });
       }
     }
   });
