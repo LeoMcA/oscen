@@ -20,12 +20,12 @@ router.post('/login', function(req, res) {
     defaults: { password: req.body.password }
   }).spread(function(user, created) {
     if(created) {
-      req.session.email = req.body.email;
+      req.session.userId = user.id;
       res.redirect('/');
     } else {
       bcrypt.compare(req.body.password, user.values.password, function(err, same){
         if(same) {
-          req.session.email = req.body.email;
+          req.session.userId = user.id;
           res.redirect('/');
         } else res.redirect('/login');
       });

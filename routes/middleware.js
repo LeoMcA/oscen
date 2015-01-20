@@ -2,7 +2,7 @@ var middleware = {};
 
 middleware.navbar = function(req, res, next) {
   var links = [{ title: 'Login / Signup', href: '/login' }];
-  if(req.session.email){
+  if(req.session.userId){
     links = [{ title: 'Logout', href: '/logout' }];
   }
   res.render('navbar', { layout: false, links: links }, function(err, html) {
@@ -12,7 +12,7 @@ middleware.navbar = function(req, res, next) {
 }
 
 middleware.checkPrivilege = function(req, res, next) {
-  if(req.session.email) next();
+  if(req.session.userId) next();
   else res.redirect('/login');
 }
 

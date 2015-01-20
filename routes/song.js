@@ -3,6 +3,7 @@ var router = express.Router();
 var models = require('../models');
 var middleware = require('./middleware');
 
+router.use(middleware.checkPrivilege);
 router.use(middleware.navbar);
 
 router.get('/add', function(req, res) {
