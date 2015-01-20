@@ -1,0 +1,12 @@
+<table class="table">
+  <tr>
+    <th>#</th>
+    <th>Name</th>
+  </tr>
+  {{#each tracks}}
+  <tr>
+    <td><a href="/track/get/{{this.id}}">{{this.id}}</a></td>
+    <td>{{this.name}}</td>
+  </tr>
+  {{/each}}
+</table>
