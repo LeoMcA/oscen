@@ -1,3 +1,5 @@
+var models = require('../models');
+
 var middleware = {};
 
 middleware.navbar = function(req, res, next) {
@@ -6,14 +8,33 @@ middleware.navbar = function(req, res, next) {
     links = [{ title: 'Logout', href: '/logout' }];
   }
   res.render('navbar', { layout: false, links: links }, function(err, html) {
-    req.session.navbar = html;
+    res.locals.navbar = html;
+    next();
+  });
+}
+
+middleware.adminNavbar = function(req, res, next) {
+  links = [{ title: 'Logout', href: '/logout' }];
+  res.render('admin/navbar', { layout: false, links: links }, function(err, html) {
+    res.locals.navbar = html;
+    next();
+  });
+}
+
+middleware.adminSidebar = function(req, res, next) {
+  var links = [models.User, models.Track, models.Song];
+  res.render('admin/sidebar', { layout: false, links: links }, function(err, html) {
+    res.locals.sidebar = html;
     next();
   });
 }
 
 middleware.checkPrivilege = function(req, res, next) {
   if(req.session.userId) next();
-  else res.redirect('/login');
+  else {
+    req.session.redirect = req.originalUrl;
+    res.redirect('/login');
+  }
 }
 
 module.exports = middleware;

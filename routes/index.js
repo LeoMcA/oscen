@@ -7,11 +7,11 @@ var middleware = require('./middleware');
 router.use(middleware.navbar);
 
 router.get('/', function(req, res) {
-  res.render('index', { navbar: req.session.navbar, title: 'Express' });
+  res.render('index', { navbar: res.locals.navbar, title: 'Express' });
 });
 
 router.get('/login', function(req, res) {
-  res.render('login', { navbar: req.session.navbar });
+  res.render('login', { navbar: res.locals.navbar });
 });
 
 router.post('/login', function(req, res) {
@@ -26,7 +26,8 @@ router.post('/login', function(req, res) {
       bcrypt.compare(req.body.password, user.values.password, function(err, same){
         if(same) {
           req.session.userId = user.id;
-          res.redirect('/');
+          if(req.session.redirect) res.redirect(req.session.redirect);
+          else res.redirect('/');
         } else res.redirect('/login');
       });
     }
@@ -34,7 +35,7 @@ router.post('/login', function(req, res) {
 });
 
 router.get('/logout', function(req, res) {
-  req.session.destroy(function(err) {
+  res.locals.destroy(function(err) {
     res.redirect('back');
   });
 });

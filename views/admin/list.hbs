@@ -1,0 +1,14 @@
+<table class="table">
+  <tr>
+    {{#each headers}}
+    <th>{{this}}</th>
+    {{/each}}
+  </tr>
+  {{#each rows}}
+  <tr>
+    {{#each this.adminList}}
+    <td>{{this}}</td>
+    {{/each}}
+  </tr>
+  {{/each}}
+</table>

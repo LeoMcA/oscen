@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var models = require('../models');
+var models = require('../../models');
 var middleware = require('./middleware');
 
 router.use(middleware.checkPrivilege);
@@ -12,19 +12,19 @@ router.get('/list', function(req, res) {
     offset: req.params.page * 10,
     limit: 10
   }).then(function(result) {
-    res.render('user/list', { navbar: req.session.navbar, page: req.params.page, count: result.count, users: result.rows });
+    res.render('user/list', { navbar: res.locals.navbar, page: req.params.page, count: result.count, users: result.rows });
   });
 });
 
 router.get('/get/:id', function(req, res) {
   models.User.find(req.params.id).then(function(user) {
-    res.render('user/get', { navbar: req.session.navbar, user: user });
+    res.render('user/get', { navbar: res.locals.navbar, user: user });
   });
 });
 
 router.get('/edit/:id', function(req, res) {
   models.User.find(req.params.id).then(function(user) {
-    res.render('user/edit', { navbar: req.session.navbar, user: user });
+    res.render('user/edit', { navbar: res.locals.navbar, user: user });
   });
 });
 
@@ -40,7 +40,7 @@ router.post('/edit/:id', function(req, res) {
 
 router.get('/delete/:id', function(req, res) {
   models.User.find(req.params.id).then(function(user) {
-    res.render('user/delete', { navbar: req.session.navbar, user: user });
+    res.render('user/delete', { navbar: res.locals.navbar, user: user });
   });
 });
 

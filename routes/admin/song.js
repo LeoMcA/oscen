@@ -1,13 +1,13 @@
 var express = require('express');
 var router = express.Router();
-var models = require('../models');
+var models = require('../../models');
 var middleware = require('./middleware');
 
 router.use(middleware.checkPrivilege);
 router.use(middleware.navbar);
 
 router.get('/add', function(req, res) {
-  res.render('song/add', { navbar: req.session.navbar });
+  res.render('song/add', { navbar: res.locals.navbar });
 });
 
 router.post('/add', function(req, res) {
@@ -24,19 +24,19 @@ router.get('/list', function(req, res) {
     offset: req.params.page * 10,
     limit: 10
   }).then(function(result) {
-    res.render('song/list', { navbar: req.session.navbar, page: req.params.page, count: result.count, songs: result.rows });
+    res.render('song/list', { navbar: res.locals.navbar, page: req.params.page, count: result.count, songs: result.rows });
   });
 });
 
 router.get('/get/:id', function(req, res) {
   models.Song.find(req.params.id).then(function(song) {
-    res.render('song/get', { navbar: req.session.navbar, song: song });
+    res.render('song/get', { navbar: res.locals.navbar, song: song });
   });
 });
 
 router.get('/edit/:id', function(req, res) {
   models.Song.find(req.params.id).then(function(song) {
-    res.render('song/edit', { navbar: req.session.navbar, song: song });
+    res.render('song/edit', { navbar: res.locals.navbar, song: song });
   });
 });
 
@@ -52,7 +52,7 @@ router.post('/edit/:id', function(req, res) {
 
 router.get('/delete/:id', function(req, res) {
   models.Song.find(req.params.id).then(function(song) {
-    res.render('song/delete', { navbar: req.session.navbar, song: song });
+    res.render('song/delete', { navbar: res.locals.navbar, song: song });
   });
 });
 

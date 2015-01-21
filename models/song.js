@@ -6,6 +6,17 @@ module.exports = function(sequelize, DataTypes) {
       associate: function(models) {
         this.belongsToMany(models.User, { as: 'Creator', through: 'UserCreatedSongs' });
         this.belongsToMany(models.Track, { through: 'SongTrack' });
+      },
+      adminList: function() {
+        return ['#', 'Name'];
+      }
+    },
+    instanceMethods: {
+      adminList: function(){
+        return [
+          this.getDataValue('id'),
+          this.getDataValue('name')
+        ];
       }
     }
   });
