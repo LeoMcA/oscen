@@ -35,7 +35,7 @@ router.post('/login', function(req, res) {
 });
 
 router.get('/logout', function(req, res) {
-  res.locals.destroy(function(err) {
+  req.session.destroy(function(err) {
     res.redirect('back');
   });
 });

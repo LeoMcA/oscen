@@ -8,13 +8,12 @@ module.exports = function(sequelize, DataTypes) {
         this.belongsToMany(models.Song, { through: 'SongTrack' });
       },
       adminList: function() {
-        return ['#', 'Name'];
+        return ['Name'];
       }
     },
     instanceMethods: {
       adminList: function(){
         return [
-          this.getDataValue('id'),
           this.getDataValue('name')
         ];
       }

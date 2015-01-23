@@ -1,14 +1,20 @@
 <table class="table">
   <tr>
+    <th>#</th>
     {{#each headers}}
     <th>{{this}}</th>
     {{/each}}
+    <th width="1px"><a href="add" class="btn btn-xs btn-primary">Add</a></th>
   </tr>
   {{#each rows}}
   <tr>
+    <td><a href="{{this.id}}">{{this.id}}</a></td>
     {{#each this.adminList}}
     <td>{{this}}</td>
     {{/each}}
+    <td><a href="{{this.id}}/edit" class="btn btn-xs btn-default">Edit</a></td>
   </tr>
   {{/each}}
 </table>
+
+{{{ pagination }}}
