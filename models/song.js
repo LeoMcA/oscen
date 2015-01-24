@@ -9,12 +9,22 @@ module.exports = function(sequelize, DataTypes) {
       },
       adminList: function() {
         return ['Name'];
+      },
+      adminAdd: function() {
+        return [
+          { label: 'Name', name: 'name', type: 'text' }
+        ]
       }
     },
     instanceMethods: {
       adminList: function(){
         return [
           this.getDataValue('name')
+        ];
+      },
+      adminInstance: function() {
+        return [
+          { name: 'name', value: this.getDataValue('name') }
         ];
       }
     }

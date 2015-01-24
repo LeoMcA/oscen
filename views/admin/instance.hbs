@@ -1,0 +1,15 @@
+<a href="/song/edit/{{song.id}}" class="btn btn-primary">Edit</a>
+<a href="/song/delete/{{song.id}}" class="btn btn-danger">Delete</a>
+
+<table class="table">
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+  </tr>
+  {{#each fields}}
+  <tr>
+    <td>{{this.name}}</td>
+    <td>{{this.value}}</td>
+  </tr>
+  {{/each}}
+</table>

@@ -6,14 +6,13 @@ var middleware = require('../middleware');
 
 var paginate = function(page, count) {
   var pages = Math.floor(count / 10) + 1;
-  console.log(pages, pages+1)
   var html = '<nav><ul class="pagination"><li';
   if(page == 1) html += ' class="disabled"';
   html += '><a href="?p=' + (page - 1)  + '" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>';
   for(var x = 1; x < (pages + 1); x++) {
-    html += '<li><a href="?p=' + x + '"';
+    html += '<li';
     if(x == page) html += ' class="active"';
-    html += '>' + x + '</a></li>';
+    html += '><a href="?p=' + x + '">' + x + '</a></li>';
   }
   html += '<li';
   if(count < 10 || (count % (page * 10)) == 0) html += ' class="disabled"';
@@ -26,12 +25,12 @@ router.use(function(req, res, next) {
   var links = [{ title: 'Logout', href: '/logout' }];
   res.render('admin/navbar', { layout: false, links: links }, function(err, html) {
     res.locals.navbar = html;
+    links = [models.User, models.Track, models.Song];
+    res.render('admin/sidebar', { layout: false, links: links }, function(err, html) {
+      res.locals.sidebar = html;
+      next();
+    });
   });
-  links = [models.User, models.Track, models.Song];
-  res.render('admin/sidebar', { layout: false, links: links }, function(err, html) {
-    res.locals.sidebar = html;
-  });
-  next();
 });
 
 router.get('/', function(req, res) {
@@ -49,10 +48,22 @@ router.get('/:model/', function(req, res) {
   });
 });
 
+router.get('/:model/add', function(req, res) {
+  var model = models[req.params.model];
+  res.render('admin/add', { fields: model.adminAdd() });
+});
+
+router.post('/:model/add', function(req, res) {
+  var model = models[req.params.model];
+  model.create(req.body).then(function(instance) {
+    res.redirect(instance.id);
+  })
+});
+
 router.get('/:model/:id', function(req, res) {
   var model = models[req.params.model];
   model.find(req.params.id).then(function(instance) {
-    res.render('admin/instance', {});
+    res.render('admin/instance', { fields: instance.adminInstance() });
   });
 });
 
