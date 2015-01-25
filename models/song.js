@@ -22,10 +22,15 @@ module.exports = function(sequelize, DataTypes) {
           this.getDataValue('name')
         ];
       },
-      adminInstance: function() {
+      adminView: function() {
         return [
           { name: 'name', value: this.getDataValue('name') }
         ];
+      },
+      adminEdit: function() {
+        return [
+          { label: 'Name', name: 'name', type: 'text', value: this.getDataValue('name') }
+        ]
       }
     }
   });

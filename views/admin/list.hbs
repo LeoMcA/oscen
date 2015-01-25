@@ -5,14 +5,16 @@
     <th>{{this}}</th>
     {{/each}}
     <th width="1px"><a href="add" class="btn btn-xs btn-primary">Add</a></th>
+    <th width="1px"></th>
   </tr>
   {{#each rows}}
   <tr>
-    <td><a href="{{this.id}}">{{this.id}}</a></td>
+    <td><a href="{{this.id}}/">{{this.id}}</a></td>
     {{#each this.adminList}}
     <td>{{this}}</td>
     {{/each}}
     <td><a href="{{this.id}}/edit" class="btn btn-xs btn-default">Edit</a></td>
+    <td><a href="{{this.id}}/delete" class="btn btn-xs btn-danger">Delete</a></td>
   </tr>
   {{/each}}
 </table>

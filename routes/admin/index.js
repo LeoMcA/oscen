@@ -56,14 +56,47 @@ router.get('/:model/add', function(req, res) {
 router.post('/:model/add', function(req, res) {
   var model = models[req.params.model];
   model.create(req.body).then(function(instance) {
-    res.redirect(instance.id);
+    res.redirect(instance.id + '/');
   })
 });
 
-router.get('/:model/:id', function(req, res) {
+router.get('/:model/:id/', function(req, res) {
   var model = models[req.params.model];
   model.find(req.params.id).then(function(instance) {
-    res.render('admin/instance', { fields: instance.adminInstance() });
+    res.render('admin/view', { fields: instance.adminView() });
+  });
+});
+
+router.get('/:model/:id/edit', function(req, res) {
+  var model = models[req.params.model];
+  model.find(req.params.id).then(function(instance) {
+    res.render('admin/edit', { fields: instance.adminEdit() });
+  });
+});
+
+router.post('/:model/:id/edit', function(req, res) {
+  var model = models[req.params.model];
+  model.find(req.params.id).then(function(instance) {
+    var update = {};
+    instance.adminEdit().forEach(function(val){
+      if(val.value != req.body[val.name]) update[val.name] = req.body[val.name];
+    });
+    instance.updateAttributes(update).then(function(song) {
+      res.redirect('.');
+    });
+  });
+});
+
+router.get('/:model/:id/delete', function(req, res) {
+  res.render('admin/delete', { model: req.params.model, id: req.params.id });
+});
+
+router.post('/:model/:id/delete', function(req, res) {
+  var model = models[req.params.model];
+  model.find(req.params.id).then(function(instance) {
+    instance.destroy().then(function() {
+      res.redirect('../');
+    });
   });
 });
 

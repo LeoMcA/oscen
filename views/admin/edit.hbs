@@ -1,0 +1,9 @@
+<form method="post">
+  {{#each fields}}
+  <div class="form-group">
+    <label for="{{this.name}}">{{this.label}}</label>
+    <input type="{{this.type}}" class="form-control" id="{{this.name}}" name="{{this.name}}", value="{{this.value}}">
+  </div>
+  {{/each}}
+  <button type="submit" class="btn btn-default">Submit</button>
+</form>

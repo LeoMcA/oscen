@@ -34,10 +34,16 @@ module.exports = function(sequelize, DataTypes) {
           this.getDataValue('email')
         ];
       },
-      adminInstance: function() {
+      adminView: function() {
         return [
           { name: 'email', value: this.getDataValue('email') }
         ];
+      },
+      adminEdit: function() {
+        return [
+          { label: 'Email', name: 'email', type: 'email', value: this.getDataValue('email') },
+          { label: 'Password', name: 'password', type: 'password', value: '' }
+        ]
       }
     }
   });
